@@ -1,24 +1,19 @@
 #include <string>
-#include <vector>
 
 class Solution {
 public:
     std::string intToRoman(int num) {
-        const std::vector<std::pair<int, std::string>> romanMap = {
-            {1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"},
-            {100, "C"},  {90, "XC"},  {50, "L"},  {40, "XL"},
-            {10, "X"},   {9, "IX"},   {5, "V"},   {4, "IV"},
-            {1, "I"}
-        };
+        static const std::string M[]  = {"", "M", "MM", "MMM"};
+        static const std::string C[]  = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+        static const std::string X[]  = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+        static const std::string I[]  = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+        std::string result;
+        result.reserve(16);
 
-        std::string result = "";
-
-        for (const auto& [value, symbol] : romanMap) {
-            while (num >= value) {
-                result += symbol;
-                num -= value;
-            }
-        }
+        result += M[num / 1000];
+        result += C[(num % 1000) / 100];
+        result += X[(num % 100) / 10];
+        result += I[num % 10];
 
         return result;
     }
